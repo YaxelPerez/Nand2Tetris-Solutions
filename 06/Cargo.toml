@@ -1,0 +1,11 @@
+[package]
+name = "hack"
+version = "0.1.0"
+authors = ["Yaxel Perez <yaxelp@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+clap = "2"
+regex = "1"
+lazy_static = "1"
+maplit = "1"

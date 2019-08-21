@@ -1,0 +1,29 @@
+CHIP Jump {
+		IN a, j1, j2, j3, zr, ng;
+		OUT out;
+
+		PARTS:
+				// ugly but i don't feel like building a mux8way chip...
+				Mux8Way16(
+						b[0]=and1out,
+						c[0]=zr,
+						d[0]=notNg,
+						e[0]=ng,
+						f[0]=notZr,
+						g[0]=or1out,
+						h[0]=not1out,
+						sel[2]=j1,
+						sel[1]=j2,
+						sel[0]=j3,
+						out[0]=maybeJump);
+
+				And(a=notNg, b=notZr, out=and1out);
+				Or(a=zr, b=ng, out=or1out);
+				Not(out=not1out);
+
+				Not(in=zr, out=notZr);
+				Not(in=ng, out=notNg);
+
+				Not(in=a, out=notA);
+				And(a=maybeJump, b=notA, out=out);
+}

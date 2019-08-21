@@ -1,0 +1,34 @@
+
+CHIP Decode {
+		IN  instruction[16];
+
+		OUT a,
+				selY,
+				zx, nx, zy, ny, f, no,
+				j1, j2, j3,
+				writeA, writeD, writeM;
+
+		PARTS:
+				Mux16(
+						b=instruction,
+						// jump
+						out[2]=j1,
+						out[1]=j2,
+						out[0]=j3,
+						// dest
+						out[3]=writeM,
+						out[4]=writeD,
+						out[5]=writeA1,
+						// op
+						out[11]=zx,
+						out[10]=nx,
+						out[9]=zy,
+						out[8]=ny,
+						out[7]=f,
+						out[6]=no,
+						out[12]=selY,
+						sel=instruction[15]);
+
+				Not(in=instruction[15], out=writeA2, out=a);
+				Or(a=writeA1, b=writeA2, out=writeA);
+}
